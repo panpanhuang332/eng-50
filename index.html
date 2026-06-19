@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>實用英文 · 商用字彙卡組</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#E9EAE3;
+    --card:#F6F5EF;
+    --ink:#1B2A2C;
+    --ink-soft:#4C5B5C;
+    --teal:#0E6E63;
+    --teal-deep:#0a4f47;
+    --marigold:#DD9333;
+    --brick:#BB4D38;
+    --line:#cdcfc4;
+    --green:#2f8a5b;
+    --shadow:0 1px 0 rgba(27,42,44,.04), 0 14px 30px -18px rgba(27,42,44,.35);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:"Noto Sans TC","Space Grotesk",system-ui,sans-serif;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    min-height:100vh;
+  }
+  .wrap{max-width:1040px;margin:0 auto;padding:32px 20px 80px;}
+
+  /* ---------- Header ---------- */
+  header.site{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:18px;border-bottom:2px solid var(--ink);padding-bottom:18px;}
+  .eyebrow{font-family:"JetBrains Mono",monospace;font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--teal);font-weight:500;}
+  h1.title{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:clamp(30px,5.4vw,46px);line-height:1.02;margin:6px 0 0;letter-spacing:-.01em;}
+  h1.title .zh{display:block;font-family:"Noto Sans TC",sans-serif;font-weight:500;font-size:clamp(15px,2.4vw,18px);color:var(--ink-soft);letter-spacing:.04em;margin-top:8px;}
+  .stamp{font-family:"JetBrains Mono",monospace;text-align:right;font-size:13px;color:var(--ink-soft);line-height:1.5;}
+  .stamp b{display:block;font-size:30px;color:var(--ink);font-weight:700;}
+
+  /* ---------- Mode toggle ---------- */
+  .modes{display:inline-flex;background:var(--card);border:1.5px solid var(--ink);border-radius:2px;margin:26px 0 22px;overflow:hidden;box-shadow:var(--shadow);}
+  .modes button{appearance:none;border:0;background:transparent;font-family:"Noto Sans TC",sans-serif;font-weight:700;font-size:15px;color:var(--ink-soft);padding:11px 22px;cursor:pointer;transition:background .18s,color .18s;letter-spacing:.04em;}
+  .modes button + button{border-left:1.5px solid var(--ink);}
+  .modes button.active{background:var(--ink);color:var(--paper);}
+  .modes button:focus-visible{outline:3px solid var(--marigold);outline-offset:2px;}
+
+  /* ---------- Filters ---------- */
+  .toolbar{display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between;margin-bottom:24px;}
+  .filters{display:flex;flex-wrap:wrap;gap:8px;}
+  .filters button{font-family:"JetBrains Mono",monospace;font-size:13px;font-weight:500;background:transparent;border:1.5px solid var(--line);color:var(--ink-soft);padding:6px 13px;border-radius:2px;cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;gap:7px;}
+  .filters button .n{font-size:11px;opacity:.7;}
+  .filters button:hover{border-color:var(--ink);color:var(--ink);}
+  .filters button.active{background:var(--teal);border-color:var(--teal);color:#fff;}
+  .filters button.active .n{opacity:.85;}
+  .search{position:relative;}
+  .search input{font-family:"Noto Sans TC",sans-serif;font-size:14px;border:1.5px solid var(--line);background:var(--card);border-radius:2px;padding:8px 12px 8px 32px;width:200px;color:var(--ink);}
+  .search input:focus{outline:none;border-color:var(--teal);}
+  .search svg{position:absolute;left:10px;top:50%;transform:translateY(-50%);width:15px;height:15px;stroke:var(--ink-soft);}
+
+  /* ---------- Card grid ---------- */
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(248px,1fr));gap:18px;}
+  .flip{perspective:1400px;height:200px;cursor:pointer;}
+  .flip:focus-visible{outline:3px solid var(--marigold);outline-offset:3px;border-radius:3px;}
+  .flip-inner{position:relative;width:100%;height:100%;transition:transform .55s cubic-bezier(.6,.05,.25,1);transform-style:preserve-3d;}
+  .flip.flipped .flip-inner{transform:rotateY(180deg);}
+  .face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;background:var(--card);border:1.5px solid var(--ink);border-radius:3px;box-shadow:var(--shadow);padding:18px 18px 16px;display:flex;flex-direction:column;overflow:hidden;}
+  .face::before{content:"";position:absolute;left:0;top:0;bottom:0;width:6px;background:var(--edge,var(--teal));}
+  .face .row{display:flex;align-items:center;justify-content:space-between;}
+  .no{font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--ink-soft);letter-spacing:.08em;}
+  .pos{font-family:"JetBrains Mono",monospace;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#fff;background:var(--edge,var(--teal));padding:2px 7px;border-radius:2px;}
+  .term{font-family:"Space Grotesk",sans-serif;font-weight:600;font-size:clamp(19px,2.4vw,23px);line-height:1.12;margin-top:auto;letter-spacing:-.01em;color:var(--ink);}
+  .flip-hint{font-family:"JetBrains Mono",monospace;font-size:10.5px;color:var(--ink-soft);letter-spacing:.1em;margin-top:8px;opacity:.7;}
+  .back{transform:rotateY(180deg);background:var(--ink);border-color:var(--ink);}
+  .back::before{background:var(--marigold);}
+  .back .meaning{font-family:"Noto Sans TC",sans-serif;font-weight:700;font-size:18px;color:#fff;margin-bottom:8px;}
+  .back .ex{font-family:"Space Grotesk",sans-serif;font-size:12.5px;font-style:italic;color:#cfe0dd;line-height:1.45;}
+  .back .exzh{font-family:"Noto Sans TC",sans-serif;font-size:12.5px;color:#9fb3b0;margin-top:5px;line-height:1.45;}
+  .back .term-mini{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--marigold);letter-spacing:.04em;margin-bottom:auto;}
+
+  /* ---------- Quiz ---------- */
+  .quiz{max-width:660px;margin:0 auto;}
+  .quiz-head{display:flex;align-items:center;justify-content:space-between;font-family:"JetBrains Mono",monospace;font-size:13px;color:var(--ink-soft);margin-bottom:10px;}
+  .quiz-head .score b{color:var(--teal);font-size:16px;}
+  .bar{height:8px;background:var(--card);border:1.5px solid var(--ink);border-radius:99px;overflow:hidden;margin-bottom:26px;}
+  .bar > div{height:100%;background:var(--teal);width:0;transition:width .4s ease;}
+  .q-card{background:var(--card);border:1.5px solid var(--ink);border-radius:4px;box-shadow:var(--shadow);padding:30px 26px;}
+  .q-kind{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--marigold);font-weight:700;}
+  .q-prompt{font-family:"Noto Sans TC",sans-serif;font-size:clamp(20px,3vw,26px);font-weight:700;margin:10px 0 24px;line-height:1.35;}
+  .q-prompt .big{font-family:"Space Grotesk",sans-serif;color:var(--teal);font-weight:700;}
+  .options{display:flex;flex-direction:column;gap:11px;}
+  .opt{appearance:none;text-align:left;font-family:"Noto Sans TC",sans-serif;font-size:16px;background:var(--paper);border:1.5px solid var(--line);border-radius:3px;padding:14px 16px;cursor:pointer;transition:all .14s;display:flex;align-items:center;gap:12px;color:var(--ink);}
+  .opt .key{font-family:"JetBrains Mono",monospace;font-size:13px;font-weight:700;color:var(--ink-soft);border:1.5px solid var(--line);border-radius:3px;width:26px;height:26px;display:grid;place-items:center;flex:none;transition:all .14s;}
+  .opt:hover:not(:disabled){border-color:var(--ink);transform:translateX(3px);}
+  .opt:hover:not(:disabled) .key{border-color:var(--ink);color:var(--ink);}
+  .opt:focus-visible{outline:3px solid var(--marigold);outline-offset:2px;}
+  .opt.correct{background:#e4f2ea;border-color:var(--green);color:var(--teal-deep);}
+  .opt.correct .key{background:var(--green);border-color:var(--green);color:#fff;}
+  .opt.wrong{background:#f6e3de;border-color:var(--brick);color:var(--brick);}
+  .opt.wrong .key{background:var(--brick);border-color:var(--brick);color:#fff;}
+  .opt:disabled{cursor:default;}
+  .q-foot{margin-top:22px;display:flex;align-items:center;justify-content:space-between;gap:14px;min-height:46px;}
+  .verdict{font-family:"Noto Sans TC",sans-serif;font-weight:700;font-size:15px;}
+  .verdict.ok{color:var(--green);}
+  .verdict.no{color:var(--brick);}
+  .btn{appearance:none;font-family:"Noto Sans TC",sans-serif;font-weight:700;font-size:15px;border:1.5px solid var(--ink);background:var(--ink);color:var(--paper);padding:11px 24px;border-radius:3px;cursor:pointer;letter-spacing:.04em;transition:transform .12s,opacity .12s;}
+  .btn:hover{transform:translateY(-2px);}
+  .btn:focus-visible{outline:3px solid var(--marigold);outline-offset:2px;}
+  .btn.ghost{background:transparent;color:var(--ink);}
+
+  /* ---------- Result ---------- */
+  .result{text-align:center;background:var(--card);border:1.5px solid var(--ink);border-radius:4px;box-shadow:var(--shadow);padding:42px 28px;}
+  .result .big-score{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:64px;line-height:1;color:var(--teal);}
+  .result .big-score span{color:var(--ink-soft);font-size:30px;}
+  .result .pct{font-family:"JetBrains Mono",monospace;font-size:14px;color:var(--ink-soft);margin-top:6px;letter-spacing:.1em;}
+  .result .rank{font-family:"Noto Sans TC",sans-serif;font-weight:700;font-size:22px;margin:18px 0 4px;}
+  .result .rank-sub{color:var(--ink-soft);font-size:14px;}
+  .result .actions{display:flex;gap:12px;justify-content:center;margin-top:26px;flex-wrap:wrap;}
+  .review{text-align:left;margin-top:30px;border-top:1.5px dashed var(--line);padding-top:22px;}
+  .review h3{font-family:"JetBrains Mono",monospace;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--brick);margin:0 0 14px;}
+  .review-item{display:flex;gap:12px;align-items:baseline;padding:9px 0;border-bottom:1px solid var(--line);font-size:14px;}
+  .review-item .rterm{font-family:"Space Grotesk",sans-serif;font-weight:600;color:var(--ink);min-width:130px;}
+  .review-item .rans{color:var(--teal-deep);font-weight:500;}
+  .review-empty{text-align:center;color:var(--green);font-weight:700;padding:10px;}
+
+  .hidden{display:none !important;}
+
+  @media (max-width:560px){
+    .stamp{text-align:left;}
+    header.site{align-items:flex-start;}
+    .search input{width:150px;}
+    .grid{grid-template-columns:1fr 1fr;gap:12px;}
+    .flip{height:178px;}
+    .term{font-size:18px;}
+  }
+  @media (max-width:380px){.grid{grid-template-columns:1fr;}}
+  @media (prefers-reduced-motion:reduce){
+    .flip-inner,.bar>div,.opt,.btn{transition:none !important;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="site">
+    <div>
+      <div class="eyebrow">實用英文 · Business Vocabulary</div>
+      <h1 class="title">Business English Deck
+        <span class="zh">商用英文 50 字卡 · 學習與隨機測驗</span>
+      </h1>
+    </div>
+    <div class="stamp">CARDS<b>50</b>idioms&nbsp;+&nbsp;A·B·C·D</div>
+  </header>
+
+  <div class="modes" role="tablist" aria-label="模式切換">
+    <button id="mode-learn" class="active" role="tab" aria-selected="true">學習模式</button>
+    <button id="mode-quiz" role="tab" aria-selected="false">測驗模式 · 隨機 20 題</button>
+  </div>
+
+  <!-- ============ LEARN ============ -->
+  <section id="view-learn">
+    <div class="toolbar">
+      <div class="filters" id="filters"></div>
+      <div class="search">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+        <input id="search" type="text" placeholder="搜尋單字或中文…" aria-label="搜尋">
+      </div>
+    </div>
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <!-- ============ QUIZ ============ -->
+  <section id="view-quiz" class="hidden">
+    <div class="quiz">
+      <div id="quiz-play">
+        <div class="quiz-head">
+          <span id="q-progress">第 1 / 20 題</span>
+          <span class="score">答對 <b id="q-score">0</b></span>
+        </div>
+        <div class="bar"><div id="q-bar"></div></div>
+        <div class="q-card">
+          <div class="q-kind" id="q-kind"></div>
+          <div class="q-prompt" id="q-prompt"></div>
+          <div class="options" id="q-options"></div>
+          <div class="q-foot">
+            <span class="verdict" id="q-verdict"></span>
+            <button class="btn hidden" id="q-next">下一題 →</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="quiz-result" class="hidden">
+        <div class="result">
+          <div class="big-score"><span id="r-pre"></span></div>
+          <div class="pct" id="r-pct"></div>
+          <div class="rank" id="r-rank"></div>
+          <div class="rank-sub" id="r-sub"></div>
+          <div class="actions">
+            <button class="btn" id="r-again">再測一次（重新隨機）</button>
+            <button class="btn ghost" id="r-back">回到學習模式</button>
+          </div>
+          <div class="review" id="r-review"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script>
+const VOCAB = [
+ {n:1,t:"Back to the drawing board",p:"idiom",zh:"（失敗後）重新開始，從頭再來",en:"The client hated your proposal so we'll have to go back to the drawing board.",ez:"客戶不喜歡你的提案，所以我們必須從頭再來。",c:"片語"},
+ {n:2,t:"Cut to the chase",p:"idiom",zh:"切入正題",en:"Let's cut to the chase: are you going to finish the report on time, or not?",ez:"切入正題吧：你可否準時完成這個報告呢？",c:"片語"},
+ {n:3,t:"Go the extra mile",p:"idiom",zh:"加倍努力",en:"We always go the extra mile for our customers.",ez:"我們總是對我們的客戶付出加倍的努力。",c:"片語"},
+ {n:4,t:"Touch base with",p:"phr.",zh:"與…取得聯繫",en:"If you could just touch base with Mark after the meeting, that would be great.",ez:"如果你可以在會議後與馬克取得聯繫，那就太好了。",c:"片語"},
+ {n:5,t:"Get the ball rolling",p:"idiom",zh:"開始行動",en:"I should get the ball rolling with the visa application.",ez:"我要開始申請簽證的程序。",c:"片語"},
+ {n:6,t:"Close of play",p:"idiom",zh:"完成某件事的期限",en:"We're going to need the report by close of play Wednesday.",ez:"我們需要在禮拜三完成這個報告。",c:"片語"},
+ {n:7,t:"Stay ahead of the curve",p:"idiom",zh:"保持領先",en:"We need to stay ahead of the curve otherwise our competitors will wipe us out.",ez:"我們需要保持領先否則競爭者將會超越我們。",c:"片語"},
+ {n:8,t:"Going forward",p:"phr.",zh:"從現在開始",en:"How can you differentiate the company going forward?",ez:"從現在開始，你如何讓這家公司實現差異化？",c:"片語"},
+ {n:9,t:"abroad",p:"adv.",zh:"在國外、廣為流傳",en:"He lived abroad for over 10 years.",ez:"他在國外居住了超過10年。",c:"A"},
+ {n:10,t:"welcome aboard",p:"phr.",zh:"歡迎加入我們",en:"Mr. Chang, welcome aboard!",ez:"張先生，歡迎加入我們。",c:"片語"},
+ {n:11,t:"have sb. aboard",p:"phr.",zh:"在同一個小組一起共事",en:"Glad to have you aboard this time.",ez:"很高興這次能和你在同一個小組。",c:"片語"},
+ {n:12,t:"absence",p:"n.",zh:"缺席、缺乏",en:"Ken will be in charge of the department in my absence.",ez:"我不在的時候，Ken 將負責這個部門。",c:"A"},
+ {n:13,t:"account",p:"n.",zh:"帳目",en:"The accounts show we have spent more than we received.",ez:"帳目顯示我們已經入不敷出了。",c:"A"},
+ {n:14,t:"advice",p:"n.",zh:"意見",en:"She gave me some good advice on the work.",ez:"她給我一些工作上的好意見。",c:"A"},
+ {n:15,t:"assign",p:"v.",zh:"分配、指派",en:"She was assigned to the Taipei office.",ez:"她被指派到台北的辦公室。",c:"A"},
+ {n:16,t:"approve",p:"v.",zh:"同意、認可",en:"My colleague doesn't approve of my plan.",ez:"我同事不贊同我的計畫。",c:"A"},
+ {n:17,t:"accurate",p:"adj.",zh:"準確的、精密的",en:"The accurate machine is important for a factory.",ez:"精密的機器對於工廠是很重要的。",c:"A"},
+ {n:18,t:"advertising",p:"n.",zh:"廣告",en:"A good advertising can attract people's attention to the product.",ez:"一個好的廣告可以吸引人們對產品的關注。",c:"A"},
+ {n:19,t:"affordable",p:"adj.",zh:"負擔得起的",en:"We don't have enough budget for the house and its price is not affordable.",ez:"我們沒有足夠預算購買這間房子且它的價格不是我們所能負擔得起的。",c:"A"},
+ {n:20,t:"agreement",p:"n.",zh:"同意、協議",en:"After a long time negotiation, the two sides have reached an agreement finally.",ez:"在長期的協商後，雙方終於達成了協議。",c:"A"},
+ {n:21,t:"adjust",p:"v.",zh:"調整",en:"We need to adjust this contract because of some law issue.",ez:"因為一些法律議題，我們必須調整這個合約內容。",c:"A"},
+ {n:22,t:"budget",p:"n.",zh:"預算",en:"We don't have the budget for this proposal now.",ez:"我們目前針對這個提案沒有預算。",c:"B"},
+ {n:23,t:"business",p:"n.",zh:"商業、交易",en:"My brother is in the frozen food business.",ez:"他做冷凍食品生意。",c:"B"},
+ {n:24,t:"bid",p:"v.",zh:"出價、投標",en:"We put in a bid of $350 for the paint.",ez:"我們對那幅畫投標 $350。",c:"B"},
+ {n:25,t:"boost",p:"v.",zh:"促進、推動",en:"The hotel managed to boost its guests by cutting room prices.",ez:"飯店設法透過降低房價來增加客人數量。",c:"B"},
+ {n:26,t:"brand",p:"n.",zh:"品牌",en:"People prefer to choose the famous brand product.",ez:"人們偏好選擇知名品牌的商品。",c:"B"},
+ {n:27,t:"behalf",p:"n.",zh:"代表",en:"On behalf of the entire company, I would like to appreciate you for all your work.",ez:"我代表全公司對你的工作表示感謝。",c:"B"},
+ {n:28,t:"balance",p:"n.",zh:"結餘",en:"The balance on my account is US$50.",ez:"我的帳戶上餘額為五十美金。",c:"B"},
+ {n:29,t:"benefit",p:"n.",zh:"利益",en:"The invention of light brought many benefits to the world.",ez:"電燈的發明給全世界帶來很多利益。",c:"B"},
+ {n:30,t:"bonus",p:"n.",zh:"獎金",en:"The company used to give a productivity bonus.",ez:"公司之前會發生產效益獎金。",c:"B"},
+ {n:31,t:"branch",p:"n.",zh:"分公司、分店",en:"The shop has branches all over the country.",ez:"該店在全國各地均有分店。",c:"B"},
+ {n:32,t:"business card",p:"n.",zh:"名片",en:"We exchange our business card in the meeting.",ez:"我們在會議中交換名片。",c:"B"},
+ {n:33,t:"cost",p:"n.",zh:"成本",en:"It's difficult for most people to deal with the rising cost of groceries.",ez:"大多數人都難以承受日用品的上漲。",c:"C"},
+ {n:34,t:"commission",p:"n.",zh:"傭金",en:"He gets a 15% commission on everything he sells.",ez:"他從銷售的每件商品中得到百分之十五的佣金。",c:"C"},
+ {n:35,t:"credit",p:"n.",zh:"信用、貸款",en:"They decided to buy the house on credit.",ez:"他們決定用信用貸款的方法買那幢房子。",c:"C"},
+ {n:36,t:"confirm",p:"v.",zh:"確認",en:"He called the client to confirm the order.",ez:"他打給客戶確認訂單。",c:"C"},
+ {n:37,t:"count",p:"v.",zh:"計算",en:"The assistant counts the quantity of parcels.",ez:"助理計算包裹數量。",c:"C"},
+ {n:38,t:"case",p:"n.",zh:"案件",en:"We have plenty cases need to be done this year.",ez:"我們今年有許多案子要完成。",c:"C"},
+ {n:39,t:"colleague",p:"n.",zh:"同事",en:"David is getting along very well with his colleagues.",ez:"大衛跟他的同事相處得很好。",c:"C"},
+ {n:40,t:"confidential",p:"adj.",zh:"機密的",en:"All company information will be treated as confidential.",ez:"所有的公司資訊都將被視作機密的。",c:"C"},
+ {n:41,t:"cooperate",p:"v.",zh:"合作",en:"My colleague and I cooperated to solve the crisis together.",ez:"我和同事合作一起解決這場危機。",c:"C"},
+ {n:42,t:"calculator",p:"n.",zh:"計算機",en:"Calculator is a very convenient tool for the accounting.",ez:"計算機在會計中是一個很方便的工具。",c:"C"},
+ {n:43,t:"certificate",p:"n.",zh:"證明、證書",en:"You will get a certificate after you finish the training.",ez:"你會在訓練結束後得到一張證書。",c:"C"},
+ {n:44,t:"conference",p:"n.",zh:"會議、研討會",en:"They will hold conferences at that hotel.",ez:"他們將在那家飯店舉辦會議。",c:"C"},
+ {n:45,t:"demand",p:"n.",zh:"要求、需求",en:"The employees are demanding a 5 percent pay rise this year.",ez:"員工們在今年要求調漲薪資 5%。",c:"D"},
+ {n:46,t:"decision",p:"n.",zh:"決定、結論",en:"The shareholders made a decision of reduction in force because of Covid-19.",ez:"股東們因為疫情決定縮減人力。",c:"D"},
+ {n:47,t:"decrease",p:"v.",zh:"減少、下跌",en:"The sales of cars are decreasing.",ez:"汽車銷售量下跌。",c:"D"},
+ {n:48,t:"department",p:"n.",zh:"部門",en:"How many departments are there in this company?",ez:"這家公司有幾個部門？",c:"D"},
+ {n:49,t:"development",p:"n.",zh:"發展、成長、進化",en:"Inform me if there are any new developments.",ez:"如果有甚麼新動態就通知我。",c:"D"},
+ {n:50,t:"deal",p:"n.",zh:"交易、生意",en:"It is the best business deal for us this year.",ez:"這是一筆今年對我最好的生意。",c:"D"}
+];
+
+const EDGE = {"片語":"var(--marigold)","A":"var(--teal)","B":"#3f6fa3","C":"#8a5a9e","D":"#b0643b"};
+
+/* ---------- LEARN ---------- */
+const grid = document.getElementById('grid');
+const filtersEl = document.getElementById('filters');
+const searchEl = document.getElementById('search');
+let activeFilter = '全部';
+
+const cats = ['全部','片語','A','B','C','D'];
+cats.forEach((cat,i)=>{
+  const count = cat==='全部' ? VOCAB.length : VOCAB.filter(v=>v.c===cat).length;
+  const b = document.createElement('button');
+  b.innerHTML = `${cat} <span class="n">${count}</span>`;
+  if(i===0) b.classList.add('active');
+  b.onclick = ()=>{activeFilter=cat;[...filtersEl.children].forEach(c=>c.classList.remove('active'));b.classList.add('active');renderGrid();};
+  filtersEl.appendChild(b);
+});
+
+function esc(s){return s.replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));}
+
+function renderGrid(){
+  const q = searchEl.value.trim().toLowerCase();
+  const list = VOCAB.filter(v=>{
+    const okCat = activeFilter==='全部' || v.c===activeFilter;
+    const okQ = !q || v.t.toLowerCase().includes(q) || v.zh.includes(q);
+    return okCat && okQ;
+  });
+  grid.innerHTML = '';
+  if(!list.length){grid.innerHTML='<div style="grid-column:1/-1;color:var(--ink-soft);font-family:JetBrains Mono,monospace;padding:30px 0;">沒有符合的字卡，換個關鍵字試試。</div>';return;}
+  list.forEach(v=>{
+    const card = document.createElement('div');
+    card.className='flip';card.tabIndex=0;card.setAttribute('role','button');
+    card.setAttribute('aria-label',v.t+' 點擊翻面看中文');
+    const edge = EDGE[v.c];
+    card.innerHTML = `
+      <div class="flip-inner">
+        <div class="face front" style="--edge:${edge}">
+          <div class="row"><span class="no">No.${String(v.n).padStart(2,'0')}</span><span class="pos" style="--edge:${edge}">${esc(v.p)}</span></div>
+          <div class="term">${esc(v.t)}</div>
+          <div class="flip-hint">▸ 點擊翻面</div>
+        </div>
+        <div class="face back">
+          <div class="term-mini">${esc(v.t)}</div>
+          <div class="meaning">${esc(v.zh)}</div>
+          <div class="ex">${esc(v.en)}</div>
+          <div class="exzh">${esc(v.ez)}</div>
+        </div>
+      </div>`;
+    const flip=()=>card.classList.toggle('flipped');
+    card.addEventListener('click',flip);
+    card.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();flip();}});
+    grid.appendChild(card);
+  });
+}
+searchEl.addEventListener('input',renderGrid);
+renderGrid();
+
+/* ---------- MODE SWITCH ---------- */
+const mLearn=document.getElementById('mode-learn'),mQuiz=document.getElementById('mode-quiz');
+const vLearn=document.getElementById('view-learn'),vQuiz=document.getElementById('view-quiz');
+mLearn.onclick=()=>{mLearn.classList.add('active');mQuiz.classList.remove('active');mLearn.setAttribute('aria-selected','true');mQuiz.setAttribute('aria-selected','false');vLearn.classList.remove('hidden');vQuiz.classList.add('hidden');};
+mQuiz.onclick=()=>{mQuiz.classList.add('active');mLearn.classList.remove('active');mQuiz.setAttribute('aria-selected','true');mLearn.setAttribute('aria-selected','false');vQuiz.classList.remove('hidden');vLearn.classList.add('hidden');startQuiz();};
+
+/* ---------- QUIZ ENGINE ---------- */
+const QN = 20;
+let quiz=[], qi=0, score=0, wrongs=[];
+
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+
+function buildQuiz(){
+  const picked = shuffle(VOCAB).slice(0,QN);
+  return picked.map(v=>{
+    const kind = Math.random()<0.5 ? 'en2zh':'zh2en';
+    const pool = shuffle(VOCAB.filter(x=>x.n!==v.n));
+    const distract = [];
+    for(const x of pool){
+      const val = kind==='en2zh'?x.zh:x.t;
+      const corr = kind==='en2zh'?v.zh:v.t;
+      if(val!==corr && !distract.includes(val)) distract.push(val);
+      if(distract.length===3) break;
+    }
+    const correct = kind==='en2zh'?v.zh:v.t;
+    const options = shuffle([correct,...distract]);
+    return {v,kind,correct,options,
+      prompt: kind==='en2zh'
+        ? `<span class="q-kind">英 → 中　選出意思</span><div class="q-prompt"><span class="big">${esc(v.t)}</span> <span style="font-family:JetBrains Mono,monospace;font-size:14px;color:var(--ink-soft);">(${esc(v.p)})</span> 的中文意思是？</div>`
+        : `<span class="q-kind">中 → 英　選出單字</span><div class="q-prompt">「${esc(v.zh)}」的英文是？</div>`
+    };
+  });
+}
+
+function startQuiz(){
+  quiz=buildQuiz();qi=0;score=0;wrongs=[];
+  document.getElementById('quiz-result').classList.add('hidden');
+  document.getElementById('quiz-play').classList.remove('hidden');
+  renderQ();
+}
+
+function renderQ(){
+  const item=quiz[qi];
+  document.getElementById('q-progress').textContent=`第 ${qi+1} / ${QN} 題`;
+  document.getElementById('q-score').textContent=score;
+  document.getElementById('q-bar').style.width=`${(qi/QN)*100}%`;
+  const card=document.querySelector('.q-card');
+  card.querySelector('.q-kind').outerHTML = item.prompt.match(/<span class="q-kind">[\s\S]*?<\/span>/)[0];
+  document.getElementById('q-prompt').outerHTML = item.prompt.match(/<div class="q-prompt">[\s\S]*?<\/div>/)[0];
+  const optBox=document.getElementById('q-options');optBox.innerHTML='';
+  const keys=['A','B','C','D'];
+  item.options.forEach((opt,idx)=>{
+    const b=document.createElement('button');
+    b.className='opt';
+    b.innerHTML=`<span class="key">${keys[idx]}</span><span>${esc(opt)}</span>`;
+    b.onclick=()=>answer(b,opt,item);
+    optBox.appendChild(b);
+  });
+  document.getElementById('q-verdict').textContent='';
+  document.getElementById('q-verdict').className='verdict';
+  document.getElementById('q-next').classList.add('hidden');
+}
+
+function answer(btn,chosen,item){
+  const opts=[...document.querySelectorAll('.opt')];
+  opts.forEach(o=>o.disabled=true);
+  const ok = chosen===item.correct;
+  const v=document.getElementById('q-verdict');
+  if(ok){btn.classList.add('correct');score++;v.textContent='✓ 答對了！';v.classList.add('ok');}
+  else{
+    btn.classList.add('wrong');
+    opts.find(o=>o.textContent.includes(item.correct))?.classList.add('correct');
+    v.textContent='✗ 正解：'+item.correct;v.classList.add('no');
+    wrongs.push(item);
+  }
+  document.getElementById('q-score').textContent=score;
+  const next=document.getElementById('q-next');
+  next.classList.remove('hidden');
+  next.textContent = qi===QN-1 ? '看成績 →' : '下一題 →';
+  next.focus();
+}
+
+document.getElementById('q-next').onclick=()=>{
+  if(qi<QN-1){qi++;renderQ();}else{showResult();}
+};
+
+function showResult(){
+  document.getElementById('q-bar').style.width='100%';
+  document.getElementById('quiz-play').classList.add('hidden');
+  const res=document.getElementById('quiz-result');res.classList.remove('hidden');
+  document.getElementById('r-pre').innerHTML=`${score}<span>/${QN}</span>`;
+  const pct=Math.round(score/QN*100);
+  document.getElementById('r-pct').textContent=`正確率 ${pct}%`;
+  let rank,sub;
+  if(pct>=90){rank='商務英文一把罩 🏆';sub='幾乎全對，考試穩穩的。';}
+  else if(pct>=75){rank='表現很穩 👍';sub='底子不錯，把錯的幾個補起來就滿分。';}
+  else if(pct>=60){rank='及格邊緣，再加把勁';sub='方向對了，多翻幾次卡片會更牢。';}
+  else{rank='需要再多複習一輪 📚';sub='別氣餒，回學習模式刷一遍再來挑戰。';}
+  document.getElementById('r-rank').textContent=rank;
+  document.getElementById('r-sub').textContent=sub;
+  const rv=document.getElementById('r-review');
+  if(!wrongs.length){
+    rv.innerHTML='<div class="review-empty">🎉 全部答對，沒有需要訂正的題目！</div>';
+  }else{
+    rv.innerHTML='<h3>需要訂正 · '+wrongs.length+' 題</h3>'+wrongs.map(w=>
+      `<div class="review-item"><span class="rterm">${esc(w.v.t)}</span><span class="rans">${esc(w.v.zh)}　(${esc(w.v.p)})</span></div>`
+    ).join('');
+  }
+  res.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+document.getElementById('r-again').onclick=startQuiz;
+document.getElementById('r-back').onclick=()=>mLearn.click();
+</script>
+</body>
+</html>
